@@ -32,11 +32,11 @@ int bg = 255;
 PVector bzCtlPt1, bzCtlPt2, bzPt1, bzPt2;
 
 // BUBBLES --------------------------------------------------------------
-float zDist = 5, zmin = -650, zmax = 800, zstep = 1.8, rad = 200;
-int nb = int((zmax - zmin) / zDist);
-PVector[] circles = new PVector[nb];
-color[] bubbleColors = new color[nb];
-Boolean bnw = true, dots = false;
+//float zDist = 5, zmin = -650, zmax = 800, zstep = 1.8, rad = 200;
+//int nb = int((zmax - zmin) / zDist);
+//PVector[] circles = new PVector[nb];
+//color[] bubbleColors = new color[nb];
+//Boolean bnw = true, dots = false;
 // ----------------------------------------------------------------------
 
 color[] colors = {
@@ -50,7 +50,7 @@ color[] colors = {
 void settings() {
 
   //size(w, h);
-  fullScreen(P3D);
+  fullScreen();
 }
 float a1 = 0;
 float inc1 = 0;
@@ -83,20 +83,19 @@ void setup() {
   
   rectMode(CENTER);
  
-  directionalLight(126, 126, 126, 0, 0, -1);
-  ambientLight(102, 102, 102);
+
 }
 Boolean falling = false;
 Boolean hasOscEvent = false;
 
 void draw() {
   
-  background(0);
+  //background(0);
   
   ////smooth();
   ////background(255,.3);
   colorMode(RGB, 100);
-  fill(237, 55, 120, 6.5);
+  fill(237, 55, 120, 3.5);
   rectMode(CORNER);
   rect(0, 0, width, height);
   
@@ -239,7 +238,7 @@ void draw() {
   }
   
   // DRAW BUBBLE TUNNEL
-  drawBubbles();
+  //drawBubbles();
   
   
 }
@@ -264,55 +263,55 @@ void drawColorSwatches() {
 
 void drawBubbles() {
  
-  noFill();
-  strokeWeight(1);
-  colorMode(HSB);
-  for (int i = 0; i < nb; i++) {
-    circles[i] = new PVector(0, 0, map(i, 0, nb - 1, zmax, zmin));
-    bubbleColors[i] = color(random(110, 255), 0, random(60, 150));
-    bubbleColors[i] = color(random(220, 255), 255, 255);
-  }
+  //noFill();
+  //strokeWeight(1);
+  //colorMode(HSB);
+  //for (int i = 0; i < nb; i++) {
+  //  circles[i] = new PVector(0, 0, map(i, 0, nb - 1, zmax, zmin));
+  //  bubbleColors[i] = color(random(110, 255), 0, random(60, 150));
+  //  bubbleColors[i] = color(random(220, 255), 255, 255);
+  //}
   
-  translate(width/2, height/2);
-  PVector pv;
-  float fc = (float)frameCount, a;
-  if (dots) beginShape(POINTS); 
+  //translate(width/2, height/2);
+  //PVector pv;
+  //float fc = (float)frameCount, a;
+  //if (dots) beginShape(POINTS); 
 
-  for (int i = 0; i < nb; i++) {
-    pv = circles[i];
-    pv.z += zstep;
-    pv.x = (noise((fc*2 + pv.z) / 550) - .5) * height * map(pv.z, zmin, zmax, 6, 0);
-    pv.y = (noise((fc*2 - 3000 - pv.z) / 550) - .5) * height * map(pv.z, zmin, zmax, 6, 0);
+  //for (int i = 0; i < nb; i++) {
+  //  pv = circles[i];
+  //  pv.z += zstep;
+  //  pv.x = (noise((fc*2 + pv.z) / 550) - .5) * height * map(pv.z, zmin, zmax, 6, 0);
+  //  pv.y = (noise((fc*2 - 3000 - pv.z) / 550) - .5) * height * map(pv.z, zmin, zmax, 6, 0);
 
-    a = map(pv.z, zmin, zmax, 0, 255);
-    if (!bnw)stroke(colors[i], a);
-    else stroke(map(pv.z, zmin, zmax, 0, 255), a);
-    float r = map(pv.z, zmin, zmax, rad*.1, rad);
+  //  a = map(pv.z, zmin, zmax, 0, 255);
+  //  if (!bnw)stroke(colors[i], a);
+  //  else stroke(map(pv.z, zmin, zmax, 0, 255), a);
+  //  float r = map(pv.z, zmin, zmax, rad*.1, rad);
 
-    if (dots) {
-      float jmax = r;
-      for (int j  = 0; j < jmax; j++)
-      {
-        vertex(pv.x + r*cos(j*TWO_PI/jmax + fc/40)/2, pv.y + r*sin(j*TWO_PI/jmax + fc/40)/2, pv.z);
-      }
-    } else {
-      pushMatrix();
-      translate(pv.x, pv.y, pv.z);
-      ellipse(0, 0, r, r);
-      popMatrix();
-    }
+  //  if (dots) {
+  //    float jmax = r;
+  //    for (int j  = 0; j < jmax; j++)
+  //    {
+  //      vertex(pv.x + r*cos(j*TWO_PI/jmax + fc/40)/2, pv.y + r*sin(j*TWO_PI/jmax + fc/40)/2, pv.z);
+  //    }
+  //  } else {
+  //    pushMatrix();
+  //    translate(pv.x, pv.y, pv.z);
+  //    ellipse(0, 0, r, r);
+  //    popMatrix();
+  //  }
 
-    if (pv.z > zmax) {
-      circles[i].z = zmin;
-    }
-  }
-  if (dots) endShape();
+  //  if (pv.z > zmax) {
+  //    circles[i].z = zmin;
+  //  }
+  //}
+  //if (dots) endShape();
 }
   
  
 
 void oscEvent(OscMessage msg) {
-  
+  println("event");
   float value;
   
   // FLOAT VALUES
@@ -357,7 +356,7 @@ void oscEvent(OscMessage msg) {
        falling = true;
        fallPos.y = -500;
        fallPos.x = random(100 + (width-500) );
-       dropSpeed = random(10, 50);
+       dropSpeed = 10; //random(10, 10);
        break;
        
      case "/btn2":

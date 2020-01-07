@@ -41,7 +41,7 @@ void draw() {
     arrayCopy(pixels, 0, pixels, width, (height - 1) * width); //Move everything down one row to make room for new frames of video
     updatePixels();
   }
-  image(cam, 0, 0);
+  //image(cam, 0, 0);
   // The following does the same, and is faster when just drawing the image
   // without any additional resizing, transformations, or tint.
   //set(0, 0, cam);
